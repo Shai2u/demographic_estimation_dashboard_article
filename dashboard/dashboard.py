@@ -38,7 +38,47 @@ style_handle = assign("""function(feature, context){
     }
     return style;
 }""")
+
+mapObj = dl.Map([dl.TileLayer(url=cartoUrl, maxZoom=20, attribution=attribution),dl.GeoJSON(data=statisticalStatsJson, options={'style':line_style}),dl.GeoJSON(data = simulatedBldgsJson,options = {'style':style_handle}, id='simulatedBldgs',hideout=dict(colorscale=colorscale, classes=classes, style=style, colorProp="status"))],center=[32.0272,34.7444], zoom=16, style={'width': '100%', 'height': '900px'})
+
+dashboard_page =  html.Div([
+  html.Div([
+    html.Div([
+              #To Do Add static legend, that won't chnaged based on years and statistical stats
+              html.Div(['Hello World',mapObj
+              
+              ])
+            ],style={'width': '49%', 'display': 'inline-block'}),
+
+        html.Div([
+            html.Table([
+                html.Tr([html.Td(['Hello World'],id='selectedDate',style={'direction':'rtl','width':'10%'}),
+                    html.Td([
+                                    dcc.Slider(id='years-slider',
+             min=2015,
+             max=2030,
+             value=2022,
+             marks={str(year):str(year) for year in np.arange(2015,2030,1)},
+                                                    step=0.5
+                                                    )
+                    ],style={'direction':'rtl','width':'90%'})
+                    
+                ])
+            ],style={'direction':'rtl','width':'100%'})
+
+                                                    ], style={'width': '49%', 'float': 'right', 'display': 'inline-block'})
+  ], style={
+        'borderBottom': 'thin lightgrey solid',
+        'backgroundColor': 'rgb(250, 250, 250)',
+        'padding': '10px 5px'})
+        #dcc.Store(id='eng_heb_data')
 ])
+app = Dash(__name__,prevent_initial_callbacks=True)
+app.layout = html.Div([
+
+    dashboard_page
+])
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
