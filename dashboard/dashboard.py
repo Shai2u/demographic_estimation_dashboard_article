@@ -79,6 +79,25 @@ app.layout = html.Div([
     dashboard_page
 ])
 
+@app.callback(
+    Output('selectedDate', 'children'),
+    Output('simulatedBldgs', 'data'),
+    Input('years-slider', 'value')
+)
+def update_output_div(input_value):
+    #simulatedBldgsGdf
+    date_return =f' Q3 {int(input_value)}'
+    d = pd.to_datetime(f'{int(input_value)}-07-01')
+    if input_value % 1 == 0:
+        d = pd.to_datetime(f'{int(input_value)}-01-01')
+        date_return = f'Q1 {int(input_value)}'
+    
+    bldgs  = simulatedBldgsGdf[(simulatedBldgsGdf['start_date']< d ) & (simulatedBldgsGdf['end_date']> d )].copy().reset_index(drop=True)
+    bldgs['start_date'] = bldgs['start_date'].astype(str)
+    bldgs['end_date'] = bldgs['end_date'].astype(str)
+    bldgsJson = json.loads(bldgs.to_json())
+    return date_return,bldgsJson
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
