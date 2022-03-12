@@ -19,9 +19,7 @@ fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
 attribution = '© OpenStreetMap contributors, © CARTO'
 cartoUrl = 'http://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
 
-    html.Div(children='''
-        Dash: A web application framework for your data.
-    '''),
+line_style = dict(weight=2, opacity=1, color='blue', fillOpacity=0,dashArray="10 10")
 
 classes = ['Building before', 'Construction', 'Building after']
 colorscale = ['#FFEDA0', '#FEB24C', '#FC4E2A']
