@@ -16,8 +16,8 @@ simulatedBldgsGdf['end_date'] = pd.to_datetime(simulatedBldgsGdf['end_date'])
 
 fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
 
-app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+attribution = '© OpenStreetMap contributors, © CARTO'
+cartoUrl = 'http://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
 
     html.Div(children='''
         Dash: A web application framework for your data.
