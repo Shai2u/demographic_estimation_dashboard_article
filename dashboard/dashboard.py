@@ -21,7 +21,6 @@ simulatedBldgsGdf['start_date'] = pd.to_datetime(simulatedBldgsGdf['start_date']
 simulatedBldgsGdf['end_date'] = pd.to_datetime(simulatedBldgsGdf['end_date'])
 
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
 
 attribution = '© OpenStreetMap contributors, © CARTO'
 cartoUrl = 'http://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
