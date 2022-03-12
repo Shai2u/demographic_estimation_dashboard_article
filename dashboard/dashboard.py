@@ -5,15 +5,14 @@ from dash import Dash, html, dcc
 import plotly.express as px
 import pandas as pd
 
-app = Dash(__name__)
+#Statistical Stats
+statisticalStatsGdf = gpd.read_file('https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/statistical_tract_4326.geojson')
+statisticalStatsJson = json.loads(statisticalStatsGdf.to_json())
+simulatedBldgsGdf = gpd.read_file('https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/buildings_for_dashboard_4326.geojson')
+simulatedBldgsJson = json.loads(simulatedBldgsGdf.to_json())
+simulatedBldgsGdf['start_date'] = pd.to_datetime(simulatedBldgsGdf['start_date'])
+simulatedBldgsGdf['end_date'] = pd.to_datetime(simulatedBldgsGdf['end_date'])
 
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
 
 fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
 
