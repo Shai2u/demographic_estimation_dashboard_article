@@ -23,10 +23,21 @@ cartoUrl = 'http://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
         Dash: A web application framework for your data.
     '''),
 
-    dcc.Graph(
-        id='example-graph',
-        figure=fig
-    )
+classes = ['Building before', 'Construction', 'Building after']
+colorscale = ['#FFEDA0', '#FEB24C', '#FC4E2A']
+style = dict(weight=2, opacity=1, color='white', fillOpacity=0.7)
+#colorbar = dlx.categorical_colorbar(categories=classes, colorscale=colorscale, width=300, height=30, position="bottomleft")
+
+style_handle = assign("""function(feature, context){
+    const {classes, colorscale, style, colorProp} = context.props.hideout;  // get props from hideout
+    const value = feature.properties[colorProp];  // get value the determines the color
+    for (let i = 0; i < classes.length; ++i) {
+        if (value == classes[i]) {
+            style.fillColor = colorscale[i];  // set the fill color according to the class
+        }
+    }
+    return style;
+}""")
 ])
 
 if __name__ == '__main__':
