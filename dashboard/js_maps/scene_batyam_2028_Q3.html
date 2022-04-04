@@ -1,0 +1,99 @@
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>Bat Yam</title>
+        <style>
+            html,
+            body,
+            #viewDiv {
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                width: 100%;
+            }
+
+            #optionsDiv {
+                width: 250px;
+                padding: 0 12px 0 12px;
+                background-color: white;
+                padding: 10px;
+            }
+        </style>
+
+        <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css" />
+        <script src="https://js.arcgis.com/4.23/"></script>
+        <script>
+            require(["esri/WebScene", "esri/views/SceneView", "esri/widgets/Legend", "esri/widgets/Expand", "esri/widgets/LayerList"], (
+                WebScene,
+                SceneView,
+                Legend,
+                Expand,
+                LayerList
+            ) => {
+                // load web scene from ArcGIS Online
+                const webscene = new WebScene({
+                    portalItem: {
+                        // autocasts as new PortalItem()
+                        id: "f57396d8ca6f4df6a5f5406d7e4ea3ad"
+                    }
+                });
+                webscene.when(() => {
+                    const After = webscene.layers.find((l) => {
+                        return l.title === "After";
+                    });
+                    date_ = 202871
+                    After.definitionExpression = `(start_date_int < ${date_}) AND (end_date_int > ${date_})`
+                })
+
+                //"start_date_int<= 205011"
+                //   // filter all layers in the web scene to contain only building Q
+                //   webscene.layers.forEach((layer) => {
+                //     layer.definitionExpression = buildingQuery[layer.title];
+                //   });
+                // create the scene view
+                const view = new SceneView({
+                    container: "viewDiv",
+                    map: webscene,
+                    environment: {
+                        lighting: {
+                            directShadowsEnabled: true
+                        }
+                    }
+                });
+
+
+                view.when(() => {
+                    const layerList = new Expand({
+                        content: new LayerList({
+                            view: view
+                        })
+                    })
+                    // const layerList = new LayerList({
+                    //     view: view
+                    // });
+                    // Add widget to the top right corner of the view
+                    view.ui.add(layerList, "top-right");
+                });
+
+                const legend = new Expand({
+                    content: new Legend({
+                        view: view,
+                        style: "card" // other styles include 'classic'
+                    }),
+                    view: view,
+                    expanded: true
+                });
+                view.ui.add(legend, "bottom-left");
+            })
+
+        </script>
+    </head>
+
+    <body>
+        <div id="viewDiv"></div>
+
+    </body>
+
+</html>
