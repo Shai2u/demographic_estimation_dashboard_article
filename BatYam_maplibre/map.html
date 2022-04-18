@@ -135,6 +135,33 @@
                     // ]
 
                 });
+                map.on('click', 'Building After', (e) => {
+                    new maplibregl.Popup()
+                        .setLngLat(e.lngLat)
+                        .setHTML(`
+                        <b>Project type:</b> ${e.features[0].properties.project_ty} 🏗<br/>
+                        <b>Building Address Hebrew</b>: ${e.features[0].properties.hebrew_adr}<br/>
+                        <b>Project Number:</b> ${e.features[0].properties.project_nu}<br/>
+                        <b>Units:</b> ${e.features[0].properties.units} <br/>
+                        <b>Floors:</b> ${e.features[0].properties.floors} <br/>
+                        <b>Status:</b> ${e.features[0].properties.status} <br/>
+
+
+                        `)
+                        .addTo(map);
+                });
+
+                // Change the cursor to a pointer when
+                // the mouse is over the states layer.
+                map.on('mouseenter', 'Building After', () => {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                // Change the cursor back to a pointer
+                // when it leaves the states layer.
+                map.on('mouseleave', 'Building After', () => {
+                    map.getCanvas().style.cursor = '';
+                });
                 // ['==', 'status', 'Building after'],
 
             });
