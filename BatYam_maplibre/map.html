@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src='https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.js'></script>
+        <link href='https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.css' rel='stylesheet' />
+        <title>My Firsgt Map</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id='map'></div>
+        <script>
+            var map = new maplibregl.Map({
+                container: 'map',
+
+                style: 'https://api.maptiler.com/maps/streets/style.json?key=khvVGD9ThOCYQHMkBNt5', // stylesheet location
+                center: [34.743, 32.025], // starting position [lng, lat]
+                zoom: 17, // starting zoom
+                pitch: 60, // pitch in degrees
+                bearing: 10, // bearing in degrees
+
+            });
+
+            map.on('load', () => {
+                map.addSource('Statistical_Borders', {
+                    type: 'geojson',
+                    // Use a URL for the value for the `data` property.
+                    data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/statistical_tract_4326.geojson'
+                });
+                map.addSource('Background_Buildings', {
+                    type: 'geojson',
+                    // Use a URL for the value for the `data` property.
+                    data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/ts_test_aug_10_download.geojson'
+                });
+
+                map.addLayer({
+                    'id': 'Statistical_Borders',
+                    'type': 'line',
+                    'source': 'Statistical_Borders',
+                    'layout': {},
+                    'paint': {
+                        'line-color': 'rgba(0, 112, 255, 0.4)',
+                        'line-width': 3,
+                        'line-dasharray': [2, 1],
+                    }
+
+                });
+                map.addLayer({
+                    'id': 'Building Before',
+                    'type': 'fill-extrusion',
+                    'source': 'Background_Buildings',
+                    'layout': {},
+                    'paint': {
+                        'fill-extrusion-color': 'orange',
+
+                        'fill-extrusion-height': ['get', 'height'],
+                        'fill-extrusion-opacity': 0.6
+                    },
+                    'filter': ['==', 'status', 'Building before']
+
+                });
+                date_ = 202011
+                map.addLayer({
+                    'id': 'Building After',
+                    'type': 'fill-extrusion',
+                    'source': 'Background_Buildings',
+                    'layout': {},
+                    'paint': {
+                        'fill-extrusion-color': 'rgba(55, 103, 153, 0.4)',
+
+                        'fill-extrusion-height': ['get', 'height'],
+                        'fill-extrusion-opacity': 0.6
+                    },
+                    'filter': ["all", ['==', 'status', 'Building after'],
+                        ['<', 'start_date_int', date_],
+                        ['>', 'end_date_int', date_]]
+                    // ["all",
+                    //     ['<', 'start_date_int', date_],
+                    //     ['>', 'end_date_int', date_]
+                    // ]
+
+                });
+                // ['==', 'status', 'Building after'],
+
+            });
+        </script>
+
+
+    </body>
+
+</html>
