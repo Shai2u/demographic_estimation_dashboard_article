@@ -117,6 +117,25 @@
                     'filter': ['==', 'status', 'Building before']
 
                 });
+                // map.addLayer({
+                //     'id': 'Cranes',
+                //     'type': 'circle',
+                //     'source': 'Cranes_Points_Prototype',
+                //     'paint': {
+                //         'circle-radius': 6,
+                //         'circle-color': '#B42222'
+                //     },
+                // });
+
+                map.addLayer({
+                    'id': 'Cranes-images',
+                    'type': 'symbol',
+                    'source': 'Cranes_Points_Prototype',
+                    'layout': {
+                        'icon-image': 'crane-marker',
+                    },
+                });
+
                 date_ = 203011
                 map.addLayer({
                     'id': 'Building After',
