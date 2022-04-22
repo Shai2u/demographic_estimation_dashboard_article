@@ -139,6 +139,7 @@
                 });
                 var url = window.location.pathname;
                 var filename = url.substring(url.lastIndexOf('/') + 1);
+                filename = path.parse(filename).name;
                 console.log(filename)
                 //use this instead of date_
                 date_ = 203011
