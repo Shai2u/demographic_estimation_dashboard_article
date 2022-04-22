@@ -137,10 +137,10 @@
                         'icon-image': 'crane-marker',
                     },
                 });
-                const path = require('path');
+
                 var url = window.location.pathname;
                 var filename = url.substring(url.lastIndexOf('/') + 1);
-                filename = path.parse(filename).name;
+                filename = filename.split('.').slice(0, -1).join('.');
                 console.log(filename)
                 //use this instead of date_
                 date_ = 203011
