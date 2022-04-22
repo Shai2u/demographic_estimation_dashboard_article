@@ -137,7 +137,10 @@
                         'icon-image': 'crane-marker',
                     },
                 });
-
+                var url = window.location.pathname;
+                var filename = url.substring(url.lastIndexOf('/') + 1);
+                console.log(filename)
+                //use this instead of date_
                 date_ = 203011
                 map.addLayer({
                     'id': 'Building After',
