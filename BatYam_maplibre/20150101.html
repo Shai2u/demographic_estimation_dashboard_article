@@ -35,12 +35,12 @@
                 z-index: 1;
             }
 
-            .legend h4 {
+            .legend h3 {
                 margin: 0 0 10px;
             }
 
             .legend div span {
-                border-radius: 50%;
+                border-radius: 25%;
                 display: inline-block;
                 height: 10px;
                 margin-right: 5px;
@@ -52,10 +52,16 @@
     <body>
         <div id='map'></div>
         <div id="state-legend" class="legend">
-            <h4>Building Type</h4>
-            <div><span style="background-color: rgb(55, 103, 153,0.4)"></span>Tama 38-1</div>
-            <div><span style="background-color: rgb(96, 144, 199,0.4)"></span>Tama 38-2</div>
-            <div><span style="background-color: rgb(190, 210, 255,0.4)"></span>Taba</div>
+            <h2>Building Before</h2>
+            <div><span style="background-color: rgb(128, 128, 128)"></span>Addition</div>
+            <h2>Building Construction</h2>
+            <div><span style="background-color: rgb(250, 200, 15)"></span>Addition</div>
+            <h3>Building After</h3>
+            <h2>Building Type</h2>
+            <div><span style="background-color: rgb(55, 103, 153,0.4)"></span>Addition
+            </div>
+            <div><span style="background-color: rgb(96, 144, 199,0.4)"></span>Reconstruction</div>
+            <div><span style="background-color: rgb(190, 210, 255,0.4)"></span>Raze & Rebuild</div>
         </div>
         <script
             src="https://shai2u.github.io/demographic_estimation_dashboard_article/BatYam_maplibre/maplibre_template.js">
