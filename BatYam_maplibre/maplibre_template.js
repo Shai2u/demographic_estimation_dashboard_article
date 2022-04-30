@@ -141,6 +141,13 @@ map.on('load', () => {
     //     },
     // });
 
+
+    var url = window.location.pathname;
+    var filename = url.substring(url.lastIndexOf('/') + 1);
+    date_ = filename.split('.').slice(0, -1).join('.');
+    console.log(date_);
+    date_ = parseInt(date_);
+
     map.addLayer({
         'id': 'Cranes-images',
         'type': 'symbol',
@@ -164,12 +171,6 @@ map.on('load', () => {
             ['<', 'start_date_int', date_],
             ['>', 'end_date_int', date_]]
     });
-    var url = window.location.pathname;
-    var filename = url.substring(url.lastIndexOf('/') + 1);
-    date_ = filename.split('.').slice(0, -1).join('.');
-    console.log(date_);
-    date_ = parseInt(date_);
-    //use this instead of date_
     map.addLayer({
         'id': 'Building After',
         'type': 'fill-extrusion',
