@@ -151,7 +151,6 @@ map.on('load', () => {
         'source': 'Crane_Points',
         'layout': {
             'icon-image': 'crane-marker'
-            // 'icon-image': 'pulsing-dot'
         },
         'filter': ["all", ['==', 'status', 'Construction'],
             ['<', 'start_date_int', date_int],
