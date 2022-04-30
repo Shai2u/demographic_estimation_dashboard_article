@@ -102,6 +102,13 @@ map.on('load', () => {
         // Use a URL for the value for the `data` property.
         data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/crane_points_4326.geojson'
     });
+
+    map.addSource('Construction_sites', {
+        type: 'geojson',
+        // Use a URL for the value for the `data` property.
+        data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/construction_sites.geojson'
+    });
+
     map.loadImage(
         'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/lawrence_Crane.png',
         function (error, image) {
@@ -154,7 +161,7 @@ map.on('load', () => {
     map.addLayer({
         'id': 'Cranes',
         'type': 'symbol',
-        'source': 'Crane_Points',
+        'source': 'Construction_sites',
         'layout': {
             'icon-image': 'pulsing-dot'
         },
