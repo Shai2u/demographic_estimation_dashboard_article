@@ -117,8 +117,11 @@ map.on('load', () => {
             'fill-extrusion-opacity': 0.6
         },
         'filter': ["all", ['==', 'status', 'Building after'],
-            ['>', 'start_date_int', date_int],
-            ['<', 'end_date_int', date_int]]
+            ['<', 'start_date_int', date_int],
+            ['>', 'end_date_int', date_int]]
+        // 'filter': ["all", ['==', 'status', 'Building after'],
+        //     ['>=', 'start_date_int', date_int],
+        //     ['<=', 'end_date_int', date_int]]
     });
 
     //use this instead of date_
@@ -134,27 +137,27 @@ map.on('load', () => {
             'fill-extrusion-opacity': 0.6
         },
         'filter': ["all", ['==', 'status', 'Building before'],
-            ['>', 'start_date_int', date_int],
-            ['<', 'end_date_int', date_int]]
+            ['<=', 'start_date_int', date_int],
+            ['>=', 'end_date_int', date_int]]
     });
 
-    //use this instead of date_
-    map.addLayer({
-        'id': 'Building Construction',
-        'type': 'fill-extrusion',
-        'source': 'Background_Buildings',
-        'layout': {},
-        'paint': {
-            'fill-extrusion-color': '#F9C70F',
+    // //use this instead of date_
+    // map.addLayer({
+    //     'id': 'Building Construction',
+    //     'type': 'fill-extrusion',
+    //     'source': 'Background_Buildings',
+    //     'layout': {},
+    //     'paint': {
+    //         'fill-extrusion-color': '#F9C70F',
 
-            'fill-extrusion-height': ['get', 'height'],
-            'fill-extrusion-opacity': 0.6
-        },
-        'filter': ["all", ['==', 'status', 'Construction'],
-            ['>', 'start_date_int', date_int],
-            ['<', 'end_date_int', date_int]]
-    });
-    //test
+    //         'fill-extrusion-height': ['get', 'height'],
+    //         'fill-extrusion-opacity': 0.6
+    //     },
+    //     'filter': ["all", ['==', 'status', 'Construction'],
+    //         ['<=', 'start_date_int', date_int],
+    //         ['>=', 'end_date_int', date_int]]
+    // });
+    // //test
 
     map.on('click', 'Building After', (e) => {
         new maplibregl.Popup()
@@ -166,7 +169,11 @@ map.on('load', () => {
             <b>Units:</b> ${e.features[0].properties.units} <br/>
             <b>Floors:</b> ${e.features[0].properties.floors} <br/>
             <b>Status:</b> ${e.features[0].properties.status} <br/>
-
+            <b>Start Date:</b> ${e.features[0].properties.start_date_int} <br/>
+            <b>End Date:</b> ${e.features[0].properties.end_date_int} <br/>
+            <b>Website Date:</b> ${date_int}<br/>
+            ${e.features[0].properties.start_date_int < date_int}<br/>
+            ${e.features[0].properties.end_date_int > date_int} <br/>
 
             `)
             .addTo(map);
