@@ -137,8 +137,8 @@ map.on('load', () => {
             'fill-extrusion-opacity': 0.6
         },
         'filter': ["all", ['==', 'status', 'Building before'],
-            ['<=', 'start_date_int', date_int],
-            ['>=', 'end_date_int', date_int]]
+            ['<', 'start_date_int', date_int],
+            ['>', 'end_date_int', date_int]]
     });
 
     // //use this instead of date_
