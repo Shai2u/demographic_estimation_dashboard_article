@@ -146,19 +146,9 @@ map.on('load', () => {
     //         ['>', 'end_date_int', date_]]
     // });
 
+
     map.addLayer({
-        'id': 'Cranes',
-        'type': 'symbol',
-        'source': 'Construction_sites',
-        'layout': {
-            'icon-image': 'pulsing-dot'
-        },
-        'filter': ["all", ['==', 'status', 'Construction'],
-            ['<', 'start_date_int', date_int],
-            ['>', 'end_date_int', date_int]]
-    });
-    map.addLayer({
-        'id': 'Cranes-images',
+        'id': 'CranesImages',
         'type': 'symbol',
         'source': 'Crane_Points',
         'layout': {
@@ -171,6 +161,17 @@ map.on('load', () => {
 
 
 
+    map.addLayer({
+        'id': 'Cranes',
+        'type': 'symbol',
+        'source': 'Construction_sites',
+        'layout': {
+            'icon-image': 'pulsing-dot'
+        },
+        'filter': ["all", ['==', 'status', 'Construction'],
+            ['<', 'start_date_int', date_int],
+            ['>', 'end_date_int', date_int]]
+    });
 
 
 
