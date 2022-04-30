@@ -1,4 +1,3 @@
-var size = 200;
 var map = new maplibregl.Map({
     container: 'map',
 
@@ -10,76 +9,13 @@ var map = new maplibregl.Map({
 
 });
 
-// implementation of CustomLayerInterface to draw a pulsing dot icon on the map
-// see https://maplibre.org/maplibre-gl-js-docs/api/properties/#customlayerinterface for more info
-var pulsingDot = {
-    width: size,
-    height: size,
-    data: new Uint8Array(size * size * 4),
-
-    // get rendering context for the map canvas when layer is added to the map
-    onAdd: function () {
-        var canvas = document.createElement('canvas');
-        canvas.width = this.width;
-        canvas.height = this.height;
-        this.context = canvas.getContext('2d');
-    },
-
-    // called once before every frame where the icon will be used
-    render: function () {
-        var duration = 1000;
-        var t = (performance.now() % duration) / duration;
-
-        var radius = (size / 2) * 0.3;
-        var outerRadius = (size / 2) * 0.7 * t + radius;
-        var context = this.context;
-
-        // draw outer circle
-        context.clearRect(0, 0, this.width, this.height);
-        context.beginPath();
-        context.arc(
-            this.width / 2,
-            this.height / 2,
-            outerRadius,
-            0,
-            Math.PI * 2
-        );
-        context.fillStyle = 'rgba(255, 200, 0,' + (1 - t) + ')';
-        context.fill();
-
-        // draw inner circle
-        context.beginPath();
-        context.arc(
-            this.width / 2,
-            this.height / 2,
-            radius,
-            0,
-            Math.PI * 2
-        );
-        context.fillStyle = 'rgba(255, 100, 100, 1)';
-        context.strokeStyle = 'white';
-        context.lineWidth = 2 + 4 * (1 - t);
-        context.fill();
-        context.stroke();
-
-        // update this image's data with data from the canvas
-        this.data = context.getImageData(
-            0,
-            0,
-            this.width,
-            this.height
-        ).data;
-
-        // continuously repaint the map, resulting in the smooth animation of the dot
-        map.triggerRepaint();
-
-        // return `true` to let the map know that the image was updated
-        return true;
-    }
-};
-
-
 map.on('load', () => {
+    var url = window.location.pathname;
+    var filename = url.substring(url.lastIndexOf('/') + 1);
+    date_ = filename.split('.').slice(0, -1).join('.');
+    console.log(date_);
+    date_int = parseInt(date_);
+
     map.addSource('Statistical_Borders', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
@@ -91,7 +27,7 @@ map.on('load', () => {
         data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/ts_test_aug_10_download.geojson'
     });
 
-    map.addSource('Cranes_Points_Prototype', {
+    map.addSource('Crane_Points', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
         data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/buildings_for_dashboard_centroid_4326.geojson'
@@ -103,9 +39,6 @@ map.on('load', () => {
             map.addImage('crane-marker', image);
         }
     )
-
-    map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
-
     map.addLayer({
         'id': 'Statistical_Borders',
         'type': 'line',
@@ -118,60 +51,51 @@ map.on('load', () => {
         }
 
     });
-    map.addLayer({
-        'id': 'Building Before',
-        'type': 'fill-extrusion',
-        'source': 'Background_Buildings',
-        'layout': {},
-        'paint': {
-            'fill-extrusion-color': '#ed7d30',
-
-            'fill-extrusion-height': ['get', 'height'],
-            'fill-extrusion-opacity': 0.6
-        },
-        'filter': ['==', 'status', 'Building before']
-
-    });
     // map.addLayer({
-    //     'id': 'Cranes',
-    //     'type': 'circle',
-    //     'source': 'Cranes_Points_Prototype',
+    //     'id': 'Building Before',
+    //     'type': 'fill-extrusion',
+    //     'source': 'Background_Buildings',
+    //     'layout': {},
     //     'paint': {
-    //         'circle-radius': 6,
-    //         'circle-color': '#B42222'
+    //         'fill-extrusion-color': '#ed7d30',
+
+    //         'fill-extrusion-height': ['get', 'height'],
+    //         'fill-extrusion-opacity': 0.6
     //     },
+    //     'filter': ["all", ['==', 'status', 'Building before'],
+    //         ['<', 'start_date_int', date_],
+    //         ['>', 'end_date_int', date_]]
     // });
 
-
-    var url = window.location.pathname;
-    var filename = url.substring(url.lastIndexOf('/') + 1);
-    date_ = filename.split('.').slice(0, -1).join('.');
-    console.log(date_);
-    date_ = parseInt(date_);
+    map.addLayer({
+        'id': 'Cranes',
+        'type': 'circle',
+        'source': 'Crane_Points',
+        'paint': {
+            'circle-radius': 15,
+            'circle-color': '#F9C70F'
+        },
+        'filter': ["all", ['==', 'status', 'Construction'],
+            ['<', 'start_date_int', date_int],
+            ['>', 'end_date_int', date_int]]
+    });
 
     map.addLayer({
         'id': 'Cranes-images',
         'type': 'symbol',
-        'source': 'Cranes_Points_Prototype',
+        'source': 'Crane_Points',
         'layout': {
             'icon-image': 'crane-marker',
         },
         'filter': ["all", ['==', 'status', 'Construction'],
-            ['<', 'start_date_int', date_],
-            ['>', 'end_date_int', date_]]
+            ['<', 'start_date_int', date_int],
+            ['>', 'end_date_int', date_int]]
     });
 
-    map.addLayer({
-        'id': 'Cranes-circles',
-        'type': 'symbol',
-        'source': 'Cranes_Points_Prototype',
-        'layout': {
-            'icon-image': 'pulsing-dot'
-        },
-        'filter': ["all", ['==', 'status', 'Construction'],
-            ['<', 'start_date_int', date_],
-            ['>', 'end_date_int', date_]]
-    });
+
+
+
+    //use this instead of date_
     map.addLayer({
         'id': 'Building After',
         'type': 'fill-extrusion',
@@ -193,14 +117,44 @@ map.on('load', () => {
             'fill-extrusion-opacity': 0.6
         },
         'filter': ["all", ['==', 'status', 'Building after'],
-            ['<', 'start_date_int', date_],
-            ['>', 'end_date_int', date_]]
-        // ["all",
-        //     ['<', 'start_date_int', date_],
-        //     ['>', 'end_date_int', date_]
-        // ]
-
+            ['<=', 'start_date_int', date_int],
+            ['>=', 'end_date_int', date_int]]
     });
+
+    //use this instead of date_
+    map.addLayer({
+        'id': 'Building Before',
+        'type': 'fill-extrusion',
+        'source': 'Background_Buildings',
+        'layout': {},
+        'paint': {
+            'fill-extrusion-color': '#808080',
+
+            'fill-extrusion-height': ['get', 'height'],
+            'fill-extrusion-opacity': 0.6
+        },
+        'filter': ["all", ['==', 'status', 'Building before'],
+            ['<=', 'start_date_int', date_int],
+            ['>=', 'end_date_int', date_int]]
+    });
+
+    //use this instead of date_
+    map.addLayer({
+        'id': 'Building Construction',
+        'type': 'fill-extrusion',
+        'source': 'Background_Buildings',
+        'layout': {},
+        'paint': {
+            'fill-extrusion-color': '#F9C70F',
+
+            'fill-extrusion-height': ['get', 'height'],
+            'fill-extrusion-opacity': 0.6
+        },
+        'filter': ["all", ['==', 'status', 'Construction'],
+            ['>', 'start_date_int', date_int],
+            ['<', 'end_date_int', date_int]]
+    });
+
     map.on('click', 'Building After', (e) => {
         new maplibregl.Popup()
             .setLngLat(e.lngLat)
