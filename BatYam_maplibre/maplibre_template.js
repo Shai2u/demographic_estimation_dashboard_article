@@ -24,7 +24,7 @@ map.on('load', () => {
     map.addSource('Cranes_Points_Prototype', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
-        data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/cranesForSimulationMay17.geojson'
+        data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/buildings_for_dashboard_centroid_4326.geojson'
     });
     map.loadImage(
         'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/lawrence_Crane.png',
@@ -76,6 +76,9 @@ map.on('load', () => {
         'layout': {
             'icon-image': 'crane-marker',
         },
+        'filter': ["all", ['==', 'status', 'Construction'],
+            ['<', 'start_date_int', date_],
+            ['>', 'end_date_int', date_]]
     });
 
     var url = window.location.pathname;
