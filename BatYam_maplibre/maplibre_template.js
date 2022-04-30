@@ -73,7 +73,7 @@ var map = new maplibregl.Map({
 
     style: 'https://api.maptiler.com/maps/streets/style.json?key=khvVGD9ThOCYQHMkBNt5', // stylesheet location
     center: [34.743, 32.025], // starting position [lng, lat]
-    zoom: 17, // starting zoom
+    zoom: 16, // starting zoom
     pitch: 60, // pitch in degrees
     bearing: 10, // bearing in degrees
 
