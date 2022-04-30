@@ -82,6 +82,7 @@ map.on('load', () => {
     var filename = url.substring(url.lastIndexOf('/') + 1);
     date_ = filename.split('.').slice(0, -1).join('.');
     console.log(date_)
+    date_ = parseInt(date_)
     //use this instead of date_
     map.addLayer({
         'id': 'Building After',
