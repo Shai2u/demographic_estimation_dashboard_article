@@ -1,3 +1,4 @@
+var size = 200;
 var map = new maplibregl.Map({
     container: 'map',
 
