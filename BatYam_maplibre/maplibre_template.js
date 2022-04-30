@@ -154,6 +154,7 @@ map.on('load', () => {
             ['>', 'start_date_int', date_int],
             ['<', 'end_date_int', date_int]]
     });
+    //test
 
     map.on('click', 'Building After', (e) => {
         new maplibregl.Popup()
