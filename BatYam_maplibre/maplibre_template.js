@@ -45,7 +45,7 @@ var pulsingDot = {
             0,
             Math.PI * 2
         );
-        context.fillStyle = 'rgba(255, 100, 100, 1)';
+        context.fillStyle = '#F9C70F';
         context.strokeStyle = 'white';
         context.lineWidth = 2 + 4 * (1 - t);
         context.fill();
@@ -138,6 +138,18 @@ map.on('load', () => {
     //         ['<', 'start_date_int', date_],
     //         ['>', 'end_date_int', date_]]
     // });
+    map.addLayer({
+        'id': 'Cranes-images',
+        'type': 'symbol',
+        'source': 'Crane_Points',
+        'layout': {
+            'icon-image': 'crane-marker'
+            // 'icon-image': 'pulsing-dot'
+        },
+        'filter': ["all", ['==', 'status', 'Construction'],
+            ['<', 'start_date_int', date_int],
+            ['>', 'end_date_int', date_int]]
+    });
 
     map.addLayer({
         'id': 'Cranes',
@@ -146,26 +158,12 @@ map.on('load', () => {
         'layout': {
             'icon-image': 'pulsing-dot'
         },
-        // 'paint': {
-        //     'circle-radius': 15,
-        //     'circle-color': '#F9C70F'
-        // },
         'filter': ["all", ['==', 'status', 'Construction'],
             ['<', 'start_date_int', date_int],
             ['>', 'end_date_int', date_int]]
     });
 
-    map.addLayer({
-        'id': 'Cranes-images',
-        'type': 'symbol',
-        'source': 'Crane_Points',
-        'layout': {
-            'icon-image': 'crane-marker',
-        },
-        'filter': ["all", ['==', 'status', 'Construction'],
-            ['<', 'start_date_int', date_int],
-            ['>', 'end_date_int', date_int]]
-    });
+
 
 
 
