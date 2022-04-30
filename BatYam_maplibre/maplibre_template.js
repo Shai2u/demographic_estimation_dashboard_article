@@ -152,7 +152,8 @@ map.on('load', () => {
         'type': 'symbol',
         'source': 'Crane_Points',
         'layout': {
-            'icon-image': 'crane-marker'
+            'icon-image': 'crane-marker',
+            'icon-allow-overlap': true
         },
         'filter': ["all", ['==', 'status', 'Construction'],
             ['<', 'start_date_int', date_int],
@@ -166,7 +167,8 @@ map.on('load', () => {
         'type': 'symbol',
         'source': 'Construction_sites',
         'layout': {
-            'icon-image': 'pulsing-dot'
+            'icon-image': 'pulsing-dot',
+            'icon-allow-overlap': true
         },
         'filter': ["all", ['==', 'status', 'Construction'],
             ['<', 'start_date_int', date_int],
