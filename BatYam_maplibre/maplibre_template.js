@@ -100,7 +100,7 @@ map.on('load', () => {
     map.addSource('Crane_Points', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
-        data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/buildings_for_dashboard_centroid_4326.geojson'
+        data: 'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/crane_points_4326.geojson'
     });
     map.loadImage(
         'https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/lawrence_Crane.png',
@@ -109,7 +109,7 @@ map.on('load', () => {
             map.addImage('crane-marker', image);
         }
     )
-    map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 10 });
+    map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
 
     map.addLayer({
         'id': 'Statistical_Borders',
@@ -141,7 +141,7 @@ map.on('load', () => {
 
     map.addLayer({
         'id': 'Cranes',
-        'type': 'circle',
+        'type': 'symbol',
         'source': 'Crane_Points',
         'layout': {
             'icon-image': 'pulsing-dot'
