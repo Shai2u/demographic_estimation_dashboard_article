@@ -153,7 +153,8 @@ map.on('load', () => {
         'source': 'Crane_Points',
         'layout': {
             'icon-image': 'crane-marker',
-            'icon-size': ["*", 0.1, ['get', 'floors']],
+            'icon-size': 20,
+            // 'icon-size': ["*", 0.1, ['get', 'floors']],
             'icon-allow-overlap': true
         },
         'filter': ["all", ['==', 'status', 'Construction'],
