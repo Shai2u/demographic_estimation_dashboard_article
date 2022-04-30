@@ -145,6 +145,18 @@ map.on('load', () => {
     //         ['<', 'start_date_int', date_],
     //         ['>', 'end_date_int', date_]]
     // });
+
+    map.addLayer({
+        'id': 'Cranes',
+        'type': 'symbol',
+        'source': 'Construction_sites',
+        'layout': {
+            'icon-image': 'pulsing-dot'
+        },
+        'filter': ["all", ['==', 'status', 'Construction'],
+            ['<', 'start_date_int', date_int],
+            ['>', 'end_date_int', date_int]]
+    });
     map.addLayer({
         'id': 'Cranes-images',
         'type': 'symbol',
@@ -157,17 +169,7 @@ map.on('load', () => {
             ['>', 'end_date_int', date_int]]
     });
 
-    // map.addLayer({
-    //     'id': 'Cranes',
-    //     'type': 'symbol',
-    //     'source': 'Construction_sites',
-    //     'layout': {
-    //         'icon-image': 'pulsing-dot'
-    //     },
-    //     'filter': ["all", ['==', 'status', 'Construction'],
-    //         ['<', 'start_date_int', date_int],
-    //         ['>', 'end_date_int', date_int]]
-    // });
+
 
 
 
