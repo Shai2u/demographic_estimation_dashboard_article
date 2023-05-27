@@ -11,7 +11,7 @@ class graph:
         '''
         Generate building status graph
         '''
-        fig = px.bar(bldg_status, x = 'status', y = "count",width=width_input, height = height_input, color = 'status', color_discrete_map = graph.status_graph_color, template='plotly_white', category_orders={'status' : graph.status})
+        fig = px.bar(bldg_status, x = 'status', y = "count",width=width_input, height = height_input, color = 'status', color_discrete_map = graph.status_graph_color, template = 'plotly_white', category_orders = {'status' : graph.status})
         fig.update_layout(margin = {"r" : 0, "t" : 0, "l" : 0, "b" : 0, "pad" : 0},
         showlegend = False,
 
