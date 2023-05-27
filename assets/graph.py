@@ -461,3 +461,90 @@ class graph:
 
         return fig
     
+    @staticmethod
+    def income_category_graph(q_date, q_date_reference, width_input, height_input):
+        """
+        Time series graph that examines the change in age distribution category between staying and new comers
+        """
+        df_less_columns = graph.agents_stat_summary_by_year[['year', 'New Comers_income_low_ratio', 'New Comers_income_medium_ratio', 'New Comers_income_high_ratio', 'stay_income_low_ratio', 'stay_income_medium_ratio', 'stay_income_high_ratio']].copy()
+        end_index = df_less_columns[df_less_columns['year'] == q_date].index.values[0]
+        selected_indexes = range(0, end_index+1)
+        df_for_graph = df_less_columns[df_less_columns.index.isin(selected_indexes)]
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['New Comers_income_low_ratio'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "Low Inocme",
+            mode = "lines",
+            line = dict(color = 'royalblue', width = 1)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['New Comers_income_medium_ratio'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "Medium Income",
+            mode = "lines",
+            line = dict(color = 'royalblue', width = 3)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['New Comers_income_high_ratio'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "High Income",
+            mode = "lines",
+            line = dict(color = 'royalblue', width = 5)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['stay_income_low_ratio'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "Low Income",
+            mode = "lines",
+            line = dict(color = 'firebrick', width = 1)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['stay_income_medium_ratio'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "Medium Income",
+            mode = "lines",
+            line = dict(color = 'firebrick', width = 3)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['stay_income_high_ratio'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "High Income",
+            mode = "lines",
+            line = dict(color = 'firebrick', width = 5)
+        ))
+
+        fig.add_trace(go.Scatter(x = [q_date_reference, q_date_reference], y = [0, 1],
+                    name = q_date_reference,
+                    legendgroup = "Reference",
+                    legendgrouptitle_text = "Reference",
+                    mode = "lines",
+                    line = dict(color = "LightSeaGreen", width = 2, dash = "dashdot")))
+        
+
+        fig.update_layout(title = "Income by class for Staying vs New Comers", template = 'plotly_white', yaxis = {'title' : "ratio"}, margin = {"r":0, "t":35, "l":0, "b":35, "pad":0},
+                            width = width_input, height = height_input, legend = dict(orientation = "h",  yanchor = "top", y = 0.99, xanchor = "left", x = 0.01))
+        fig.update_layout(hovermode = "x unified")
+        fig.update_xaxes(range = [0, len(graph.year_ranges)])
+        fig.update_yaxes(range = [0, 1])
+
+
+        return fig
