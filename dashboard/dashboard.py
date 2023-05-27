@@ -1,14 +1,25 @@
 
+"""
+File: population_simulation.py
+Author: Shai Sussman
+Date: 26 May 2023
+Description: This script initates the dashboard
+Run this app with `python app.py` and
+visit http://127.0.0.1:8050/ in your web browser.
+"""
 from dash import Dash, html, dcc, Input, Output
 from dash_extensions.javascript import  assign
 
-import dash_leaflet.express as dlx
 import plotly.express as px
 import dash_leaflet as dl
 import pandas as pd
 import numpy as np
 import json
 import geopandas as gpd
+import os
+
+# Set the current working directory to the directory of the Python file
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 #Statistical Stats
 statisticalStatsGdf = gpd.read_file('https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/dashboard/data/statistical_tract_4326.geojson')
@@ -28,7 +39,6 @@ line_style = dict(weight=2, opacity=1, color='blue', fillOpacity=0,dashArray="10
 classes = ['Building before', 'Construction', 'Building after']
 colorscale = ['#FFEDA0', '#FEB24C', '#FC4E2A']
 style = dict(weight=2, opacity=1, color='white', fillOpacity=0.7)
-#colorbar = dlx.categorical_colorbar(categories=classes, colorscale=colorscale, width=300, height=30, position="bottomleft")
 
 style_handle = assign("""function(feature, context){
     const {classes, colorscale, style, colorProp} = context.props.hideout;  // get props from hideout
