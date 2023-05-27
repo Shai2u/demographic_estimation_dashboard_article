@@ -26,6 +26,23 @@ class graph:
         fig.update_yaxes(showticklabels = False, visible = False)
         fig.update_xaxes(showticklabels = False, visible = False)
         fig.update_traces(marker = dict(line_color = "black"))
+    @staticmethod
+    def dot_matrix(list_, date_, maatrix_df, width_ = 580, height_ = 450):
+        '''
+        Generate dot matrix style graph
+        '''
+        maatrix_df['Who'] = list_
+        maatrix_df['squre_'] = 'square'
+        fig = px.scatter(maatrix_df, x = "x", y = "y", color = "Who",
+                        title= f'Staying vs Leaving Snapshot {date_}',
+                        labels= {"Who" : "Legend"}, # customize axis label
+                        template= 'simple_white' , color_discrete_map={
+                            "Staying": "firebrick",
+                            "New Comers": "royalblue",
+                            "Future Units": "hsv(0,0%,95%)"})
+        fig.update_layout(width = width_,height=height_, margin = dict(l=0, r=0, t=30, b=0) , legend = dict(yanchor="top", y=0.95, xanchor="left", x = 0.01, font = dict(size = 15)))
+        fig.update_yaxes(showticklabels = False, visible = False)
+        fig.update_xaxes(showticklabels = False, visible = False)
+        fig.update_traces(marker = dict(size = 5.5))
 
-                
         return fig
