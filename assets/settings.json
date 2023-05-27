@@ -4,4 +4,14 @@
  "income_dict" : {"Low" : 9000,
                  "Medium" : 19500,
                  "High" : 1000000},
- "status" : ["Building before", "Construction", "Building after"]}
+ "status" : ["Building before", "Construction", "Building after"],
+ "colorDict": {"18-44": "hsv(205,80%,80%)",
+                "45-64": "hsv(205,60%,90%)",
+                "65-84": "hsv(205,30%,90%)",
+                "85+": "hsv(205,10%,90%)",
+                "High": "hsv(350,90%,75%)",
+                "Medium": "hsv(350,50%,95%)",
+                "Low": "hsv(350,25%,100%)",
+                "stay": "hsv(350,90%,50%)",
+                "New Comers": "hsv(210,90%,50%)"}
+            }
