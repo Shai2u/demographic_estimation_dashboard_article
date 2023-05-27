@@ -449,7 +449,7 @@ class graph:
                     line = dict(color = "LightSeaGreen", width = 2, dash = "dashdot")))
         
 
-        fig.update_layout(title = "Income quarter distribution for Staying vs New Comers", template = 'plotly_white', yaxis = {'title' : "Inocme (New Israeli Shekels)"}, margin = {"r":0, "t":35, "l":0, "b":35, "pad":0},
+        fig.update_layout(title = "Income quarter distribution for Staying vs New Comers", template = 'plotly_white', yaxis = {'title' : "Inocme (New Israeli Shekels)"}, margin = {"r" : 0, "t" : 35, "l" : 0, "b" : 35, "pad" : 0},
                             width = width_input, height = height_input, legend = dict(orientation = "h",  yanchor = "top", y = 0.99, xanchor = "left", x = 0.01))
         fig.update_layout(hovermode = "x unified")
 
@@ -462,7 +462,7 @@ class graph:
         return fig
     
     @staticmethod
-    def income_category_graph(q_date, q_date_reference, width_input, height_input):
+    def income_category(q_date, q_date_reference, width_input, height_input):
         """
         Time series graph that examines the change in age distribution category between staying and new comers
         """
@@ -540,11 +540,80 @@ class graph:
                     line = dict(color = "LightSeaGreen", width = 2, dash = "dashdot")))
         
 
-        fig.update_layout(title = "Income by class for Staying vs New Comers", template = 'plotly_white', yaxis = {'title' : "ratio"}, margin = {"r":0, "t":35, "l":0, "b":35, "pad":0},
+        fig.update_layout(title = "Income by class for Staying vs New Comers", template = 'plotly_white', yaxis = {'title' : "ratio"}, margin = {"r" : 0, "t" : 35, "l" : 0, "b" : 35, "pad" : 0},
                             width = width_input, height = height_input, legend = dict(orientation = "h",  yanchor = "top", y = 0.99, xanchor = "left", x = 0.01))
         fig.update_layout(hovermode = "x unified")
         fig.update_xaxes(range = [0, len(graph.year_ranges)])
         fig.update_yaxes(range = [0, 1])
 
 
+        return fig
+
+    @staticmethod
+    def current_construction(construction_typology_current, construction_typology_delta, width_input = 600, height_input = 250):
+
+        """
+        Generates a figure that describe the current typlogies that are bieng constucted for the selected year
+        """
+        try:
+            v_a = construction_typology_current[construction_typology_current['project_ty'] == 1]['count'].values[0]
+        except:
+            v_a = 0
+        try:
+            v_r = construction_typology_current[construction_typology_current['project_ty'] == 2]['count'].values[0]
+        except:
+            v_r = 0
+        try:
+            v_rr = construction_typology_current[construction_typology_current['project_ty'] == 3]['count'].values[0]
+        except:
+            v_rr = 0
+
+        try:
+            d_a = construction_typology_delta[construction_typology_delta['project_ty'] == 1]['count'].values[0]
+        except:
+            d_a = 0
+        try:
+            d_r = construction_typology_delta[construction_typology_delta['project_ty'] == 2]['count'].values[0]
+        except:
+            d_r = 0
+        try:
+            d_rr = construction_typology_delta[construction_typology_delta['project_ty'] == 3]['count'].values[0]
+        except:
+            d_rr = 0
+        fig = go.Figure()
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = v_a,
+            domain = {'x' : [0.06, 0.25], 'y' : [0.7, 0.85]},
+            number_font_color="#2052a7",
+            
+            delta = {'reference' : d_a, 'relative' : True, 'valueformat' : '.2%'}))
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = v_r,
+            domain = {'x' : [0.3, 0.5], 'y' : [0.7, 0.85]},
+            number_font_color = "#4c84cb",
+            delta = {'reference' : d_r, 'relative' : True, 'valueformat' : '.2%'}))
+
+        fig.add_trace(go.Indicator(
+            mode = "number+delta",
+            value = v_rr,
+            domain = {'x' : [0.6, 0.80], 'y' : [0.7, 0.85]},
+            number_font_color = "#87b1eb",
+            delta = {'reference' : d_rr, 'relative' : True, 'valueformat' : '.2%'}))
+
+        # Add images
+        fig.add_layout_image(
+                dict(
+                    source="https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/assets/graphics/Building_Typology_png.png",
+                    xref = "paper", yref = "paper",
+                    x = 0, y = 0,
+                    sizex = 1, sizey = 1,
+                    xanchor = "left", yanchor = "bottom",
+                    layer = "below")
+        )
+
+        fig.update_layout(template = "plotly_white", margin = {"r" : 0, "t" : 0, "l" : 0, "b" : 0, "pad" : 0}, width = width_input, height = height_input)
         return fig
