@@ -1,4 +1,5 @@
 import plotly.express as px
+import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 
@@ -9,6 +10,9 @@ class graph:
     status = {''}
     total_pop = 0
     matrix_rows_cols = 0
+    contextual_width_global = 0
+    contextual_height_global = 0
+    year_ranges = []
     agents_stat_summary_by_year = pd.DataFrame()
     
     
@@ -39,7 +43,6 @@ class graph:
         fig.update_traces(marker = dict(line_color = "black"))
         return fig
     
-
     @staticmethod
     def prepare_dot_matrix(q_date):
         '''
@@ -102,3 +105,70 @@ class graph:
         dot_matrix_df = graph.prepare_dot_matrix(q_date)
         return graph.dot_matrix_figure(q_date, dot_matrix_df, width_input = 580, height_input = 450)
 
+    @staticmethod
+    def renters_owners(q_date, q_date_reference):
+        """
+        Time series graph that compares between 
+        """
+        rent_own_new_stay_df = graph.agents_stat_summary_by_year[['year', 'New Comers_rent', 'New Comers_own', 'stay_rent', 'stay_own']].copy().fillna(0)
+        # Select from start till end date
+        end_index = rent_own_new_stay_df[rent_own_new_stay_df['year'] == q_date].index.values[0]
+        selected_indexes = range(0,end_index + 1)
+        selected_df = rent_own_new_stay_df[rent_own_new_stay_df.index.isin(selected_indexes)]
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = selected_df['New Comers_rent'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "Renters",
+            mode = "lines",
+            line=dict(color='royalblue', width=1)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = selected_df['New Comers_own'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "Owners",
+            mode = "lines",
+            line = dict(color='royalblue', width=3)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = selected_df['stay_rent'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "Renters",
+            mode = "lines",
+            line = dict(color='firebrick', width=1)
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = selected_df['stay_own'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "Owners",
+            mode = "lines",
+            line = dict(color='firebrick', width=5)
+        ))
+
+        # Reference line
+        fig.add_trace(go.Scatter(x = [q_date_reference, q_date_reference], y=[0,2100],
+                        name = q_date_reference,
+                        legendgroup = "Reference",
+                        legendgrouptitle_text = "Reference",
+                        mode = "lines",
+                        line = dict(color="LightSeaGreen", width = 2,dash = "dashdot")))
+        
+        fig.update_layout(title="Staying Leaving and Owenrship", template='plotly_white', yaxis = {'title' : "Absolute Numbers"}, margin={"r" : 0, "t" : 35, "l" : 0, "b" : 35, "pad" : 0},
+                            width = graph.contextual_width_global, height = graph.contextual_height_global, legend=dict(orientation = "h", yanchor = "top", y = 0.99, xanchor = "left", x = 0.01))
+        fig.update_layout(hovermode="x unified")
+        fig.update_xaxes(range = [0, len(graph.year_ranges)])
+        fig.update_yaxes(range = [0, 2100])
+        return fig
