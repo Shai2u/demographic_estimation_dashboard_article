@@ -617,3 +617,28 @@ class graph:
 
         fig.update_layout(template = "plotly_white", margin = {"r" : 0, "t" : 0, "l" : 0, "b" : 0, "pad" : 0}, width = width_input, height = height_input)
         return fig
+
+    @staticmethod
+    def demographic_sunburst(q_year, agents_stay_age_income, colorDict, width_input = 550, height_input = 450):
+        """
+        Demographic sunburst, stay/leave age income
+        """
+        title_ = f'{q_year} : Population composition snapshot'
+        # color_discrete_map = color_group_map_
+        fig = px.sunburst(agents_stay_age_income, path = ['Stay or leave', 'Age group', 'Income category'], title = title_)
+
+        labels_text = fig.data[0].labels.tolist()
+        colorLabels = tuple(colorDict[item] for item in labels_text)
+        fig.data[0].marker.colors = colorLabels
+        fig.update_traces(textinfo = "label+percent entry")
+        fig.update_layout(showlegend = False, margin = dict(l = 0, r = 25, t = 50, b = 0), width = width_input, height = height_input)
+        fig.add_layout_image(
+            dict(
+                source = "https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/assets/graphics/legend.png",
+                xref = "paper", yref = "paper",
+                x = 0.15, y = 0,
+                sizex = 1, sizey = 1,
+                xanchor = "left", yanchor = "bottom",
+                layer = "below"))
+        return fig
+
