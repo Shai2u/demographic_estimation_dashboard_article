@@ -106,9 +106,9 @@ class graph:
         return graph.dot_matrix_figure(q_date, dot_matrix_df, width_input = 580, height_input = 450)
 
     @staticmethod
-    def renters_owners(q_date, q_date_reference):
+    def renters_owners(q_date, q_date_reference, width_input, height_input):
         """
-        Time series graph that compares between 
+        Time series graph that compares between renters owners staying and new comers
         """
         rent_own_new_stay_df = graph.agents_stat_summary_by_year[['year', 'New Comers_rent', 'New Comers_own', 'stay_rent', 'stay_own']].copy().fillna(0)
         # Select from start till end date
@@ -167,8 +167,108 @@ class graph:
                         line = dict(color="LightSeaGreen", width = 2,dash = "dashdot")))
         
         fig.update_layout(title="Staying Leaving and Owenrship", template='plotly_white', yaxis = {'title' : "Absolute Numbers"}, margin={"r" : 0, "t" : 35, "l" : 0, "b" : 35, "pad" : 0},
-                            width = graph.contextual_width_global, height = graph.contextual_height_global, legend=dict(orientation = "h", yanchor = "top", y = 0.99, xanchor = "left", x = 0.01))
+                            width = width_input, height = height_input, legend=dict(orientation = "h", yanchor = "top", y = 0.99, xanchor = "left", x = 0.01))
         fig.update_layout(hovermode="x unified")
         fig.update_xaxes(range = [0, len(graph.year_ranges)])
         fig.update_yaxes(range = [0, 2100])
+        return fig
+    
+    @staticmethod
+    def apartment(q_date , q_date_reference, width_input, height_input):
+        """
+        Time series graph that compares between apartment size, staying and new comers
+        """
+        df_less_columns = graph.agents_stat_summary_by_year[['year', 'New Comers_apartment_size_q1', 'New Comers_apartment_size_q2', 'New Comers_apartment_size_q3', 'stay_apartment_size_q1', 'stay_apartment_size_q2', 'stay_apartment_size_q3']].copy()
+        
+        # fitler till the selected year
+        end_index = df_less_columns[df_less_columns['year'] == q_date].index.values[0]
+        selected_indexes = range(0, end_index + 1)
+        df_for_graph = df_less_columns[df_less_columns.index.isin(selected_indexes)]
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['New Comers_apartment_size_q1'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "Apartment Size Q1 (25%)",
+            mode = "lines",
+            line = dict(color = 'royalblue', width = 1)
+        ))
+
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['New Comers_apartment_size_q2'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "Apartment Size Q2 (50%)",
+            mode = "lines",
+            line = dict(color = 'royalblue', width = 3)
+        ))
+
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['New Comers_apartment_size_q3'],
+            legendgroup = "New Comers",  # this can be any string, not just "group"
+            legendgrouptitle_text = "New Comers",
+            name = "Apartment Size Q3 (75%)",
+            mode = "lines",
+            line = dict(color = 'royalblue', width = 4)
+            
+        ))
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['stay_apartment_size_q1'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "Apartment Size Q1 (25%)",
+            mode = "lines",
+            line = dict(color = 'firebrick', width = 1)
+        ))
+
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['stay_apartment_size_q2'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "Apartment Size Q2 (50%)",
+            mode = "lines",
+            line = dict(color = 'firebrick', width = 3)
+        ))
+
+
+        fig.add_trace(go.Scatter(
+            x = graph.year_ranges,
+            y = df_for_graph['stay_apartment_size_q3'],
+            legendgroup = "Staying",  # this can be any string, not just "group"
+            legendgrouptitle_text = "Staying",
+            name = "Apartment Size Q3 (75%)",
+            mode = "lines",
+            line = dict(color = 'firebrick', width = 4)
+            
+        ))
+
+        fig.add_trace(go.Scatter(x = [q_date_reference, q_date_reference], y = [50,140],
+                    name = q_date_reference,
+                    legendgroup = "Reference",
+                    legendgrouptitle_text = "Reference",
+                    mode = "lines",
+                    line = dict(color = "LightSeaGreen", width = 2, dash= "dashdot")))
+
+        # fig.update_layout(title="Apartment Size  (q1-q3) vs Staying or New Comers",template='plotly_white',yaxis = {'title' : "m<sup>2</sup>"})
+        
+        fig.update_layout(title = "Apartment Size quarter distribution for Staying vs New Comers", template = 'plotly_white', yaxis = {'title' : "m<sup>2</sup>"},margin={"r" : 0,"t" : 35,"l" : 0,"b" : 35,"pad" : 0},
+                            width = width_input, height=height_input ,legend = dict(orientation = "h", yanchor = "top", y = 0.99,xanchor = "left", x = 0.01))
+
+        fig.update_layout(hovermode = "x unified")
+
+        #end modification
+
+        fig.update_xaxes(range = [0,len(graph.year_ranges)])
+        fig.update_yaxes(range = [50,160])
         return fig
