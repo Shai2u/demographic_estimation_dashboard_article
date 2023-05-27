@@ -6,8 +6,8 @@ class graph:
     status = {''}
     # Generate count status graph
     @staticmethod
-    def get_status(bldg_status):
-        fig = px.bar(bldg_status, x='status', y="count",width=600, height=250, color='status',color_discrete_map = graph.status_graph_color, template='plotly_white',category_orders={'status' : graph.status})
+    def get_status(bldg_status, width_input = 600, height_input = 250):
+        fig = px.bar(bldg_status, x='status', y="count",width=width_input, height=height_input, color='status',color_discrete_map = graph.status_graph_color, template='plotly_white',category_orders={'status' : graph.status})
         fig.update_layout(margin={"r" : 0,"t" : 0,"l" : 0,"b" : 0,"pad" : 0},
         showlegend = False,
 
