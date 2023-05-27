@@ -1,5 +1,6 @@
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
 
@@ -641,4 +642,31 @@ class graph:
                 xanchor = "left", yanchor = "bottom",
                 layer = "below"))
         return fig
+    
+    @staticmethod
+    def bubble_age_income_stay_time(stay_age_income_ref_date, new_comers_age_income_ref_date, stay_age_income_selected_date, new_comers_age_income_selected_date, ref_date_, date_, height_input = 450, width_input = 450):
+        """
+        Bubble age income staying/leaving current year vs reference year
+        """
+        fig = make_subplots(rows = 1, cols = 2, subplot_titles = (f"Reference Date {ref_date_}", f"Current Date {date_}"))
+        fig.add_trace(
+            go.Scatter(x = new_comers_age_income_ref_date['Income category'], y = new_comers_age_income_ref_date['Age group'], mode = "markers", name = 'New Comers', marker = dict(size = new_comers_age_income_ref_date['ratio'] * 250, opacity = 0.5, color = 'blue'), showlegend = True, hovertemplate = 'Households %{text}', text = list(new_comers_age_income_ref_date['units'])),
 
+            row = 1, col = 1
+        )
+        fig.add_trace(
+            go.Scatter(x = stay_age_income_ref_date['Income category'], y = stay_age_income_ref_date['Age group'], mode = "markers", name = 'Staying', marker = dict(size = stay_age_income_ref_date['ratio'] * 250, opacity = 0.5, color = 'red'), showlegend = True, hovertemplate = 'Households %{text}', text = list(stay_age_income_ref_date['units'])),
+            row = 1, col = 1
+        )
+        
+        fig.add_trace(
+            go.Scatter(x = new_comers_age_income_selected_date['Income category'], y = new_comers_age_income_selected_date['Age group'], mode = "markers", name = 'New Comers', marker = dict(size = new_comers_age_income_selected_date['ratio'] * 250, opacity = 0.5, color = 'blue'), showlegend = True, hovertemplate = 'Households %{text}', text = list(new_comers_age_income_selected_date['units'])),
+            row = 1, col = 2
+        )
+        fig.add_trace(
+            go.Scatter(x = stay_age_income_selected_date['Income category'], y = stay_age_income_selected_date['Age group'], mode="markers", name='Staying', marker=dict(size=stay_age_income_selected_date['ratio'] * 250 , opacity=0.5, color='red'), showlegend=True, hovertemplate='Households %{text}', text = list(stay_age_income_selected_date['units'])),
+            row = 1, col = 2
+        )
+
+        fig.update_layout(height = height_input, width = width_input, title_text = "Side By Side Subplots", margin = dict(l = 0, r = 0, t = 50, b = 0),legend = dict(orientation = "h", yanchor = "top", y = 0.99, xanchor = "left", x = 0.01), template = 'plotly_white')
+        return fig
