@@ -425,7 +425,6 @@ def update_output_div(input_value, input_select_context, d3_map_switch):
 
     #construction
     bldg_status = blgds_for_selected_dates['status'].value_counts().to_frame().reset_index()
-    bldg_status.rename(columns={'index':'status','status':'count'},inplace=True)
     
     # Fill valaues if missing
     if len(bldg_status)<3:
