@@ -38,5 +38,5 @@ shapely==2.0.1
 six==1.16.0
 tenacity==8.2.2
 tzdata==2023.3
-urllib3==2.0.3
+urllib3==1.26.6
 Werkzeug==2.2.3
