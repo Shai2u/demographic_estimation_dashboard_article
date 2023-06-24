@@ -1,7 +1,7 @@
 {"status_graph_color" : {"Building before": "rgba(230,230,230, 0.65)",
                          "Construction" : "rgba(249,199,15, 0.65)",
                          "Building after" : "rgba(68,115,197, 0.65)"},
-"map_2d_color": ["#808080", "#F9C70F", "#4473C5"],
+ "map_2d_color": ["#808080", "#F9C70F", "#4473C5"],
  "income_dict" : {"Low" : 9000,
                  "Medium" : 19500,
                  "High" : 1000000},
