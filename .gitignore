@@ -1,2 +1,6 @@
 demographic_estimation_dashboard_article/env
 env
+.venv
+venv_disabled
+dashboard/venv
+.vscode
