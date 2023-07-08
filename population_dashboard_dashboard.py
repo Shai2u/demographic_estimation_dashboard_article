@@ -530,4 +530,5 @@ def update_output_div(input_value, input_select_context, d3_map_switch):
     return bldgsJson, bldg_status_count, dotMAtrixFig, context_fig, construction_typo_graph, population_sunburst_graph, bubble_age_income, map_2d_display, map3d, q_date_for_dot_matrix
 
 
-app.run_server(debug=False)
+if __name__ == '__main__':
+    app.run_server(debug=False)
