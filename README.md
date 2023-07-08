@@ -13,3 +13,7 @@ This repo is the source code for the dashboard behind the simulation I built for
 2. Install the python requirements fromt he requirements.txt file
 3. Add the environment to the jupyter lab environment
 4. Start JupyterLab and run population_dashboard_article_version.ipynb file
+
+
+For the logic behind this dashboard please see
+[Bat Yam Microsimulation for demographic population dashboard article](https://github.com/Shai2u/bat_yam_microsimulation_article)
