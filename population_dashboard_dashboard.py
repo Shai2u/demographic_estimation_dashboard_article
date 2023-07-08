@@ -441,13 +441,12 @@ def update_output_div(input_value, input_select_context, d3_map_switch):
     bldgs_constr = blgds_for_selected_dates[blgds_for_selected_dates['status']=='Construction'].reset_index()
 
     construction_typo_v = bldgs_constr['project_ty'].value_counts().to_frame().reset_index()
-    construction_typo_v.rename(columns={'index':'project_ty','project_ty':'count'},inplace=True)
 
     blgds_for_selected_dates_180_d_before = sim_bldgs_gdf[(sim_bldgs_gdf['start_date']< selected_date_180d_before ) & (sim_bldgs_gdf['end_date']> selected_date_180d_before )].copy().reset_index(drop=True)
     bldgs_constr = blgds_for_selected_dates_180_d_before[blgds_for_selected_dates_180_d_before['status']=='Construction'].reset_index()
 
     construction_typo_d = bldgs_constr['project_ty'].value_counts().to_frame().reset_index()
-    construction_typo_d.rename(columns={'index':'project_ty','project_ty':'count'},inplace=True)
+
     construction_typo_graph = graph.current_construction(construction_typo_v,construction_typo_d)
 
 
