@@ -349,7 +349,7 @@ dashboard_page =  html.Div([
 ])
 external_stylesheets = [dbc.themes.BOOTSTRAP, "https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/assets/style.css"]
 application = Dash(__name__,suppress_callback_exceptions=True,prevent_initial_callbacks=True, external_stylesheets=external_stylesheets)
-
+server = application.server
 
 application.title = "Population Dashboard"
 
