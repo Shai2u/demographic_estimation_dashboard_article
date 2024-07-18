@@ -348,19 +348,19 @@ dashboard_page =  html.Div([
         'padding': '5px 5px'})
 ])
 external_stylesheets = [dbc.themes.BOOTSTRAP, "https://raw.githubusercontent.com/Shai2u/demographic_estimation_dashboard_article/main/assets/style.css"]
-app = Dash(__name__,suppress_callback_exceptions=True,prevent_initial_callbacks=True, external_stylesheets=external_stylesheets)
+application = Dash(__name__,suppress_callback_exceptions=True,prevent_initial_callbacks=True, external_stylesheets=external_stylesheets)
 
 
-app.title = "Population Dashboard"
+application.title = "Population Dashboard"
 
-#run_with_ngrok(app)
+#run_with_ngrok(application)
 
-app.layout = html.Div([
+application.layout = html.Div([
 
     dashboard_page
 ])
 
-@app.callback(
+@application.callback(
     Output('simulatedBldgs', 'data'),
     Output('status_count','figure'),
     Output('dot_matrix_fig','figure'),
@@ -530,4 +530,4 @@ def update_output_div(input_value, input_select_context, d3_map_switch):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    application.run_server(debug=False)
