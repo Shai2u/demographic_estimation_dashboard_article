@@ -530,4 +530,4 @@ def update_output_div(input_value, input_select_context, d3_map_switch):
 
 
 if __name__ == '__main__':
-    application.run_server(port=8080)
+    application.run_server(port=8080, assets_folder ="static", assets_url_path="static")
